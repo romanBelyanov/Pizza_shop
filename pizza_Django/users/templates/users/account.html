@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой аккаунт | PizzaMania</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --primary-hover: #c0392b;
+            --secondary-color: #f39c12;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --text-color: #2c3e50;
+            --border-color: #ddd;
+            --error-color: #e74c3c;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --pizza-shadow: 0 8px 24px rgba(231, 76, 60, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fff;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--primary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        .nav-links, .auth-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a, .auth-links a {
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .auth-links .logout {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .auth-links .logout:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 40px 0;
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                        url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .account-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .account-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .account-box h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .account-info {
+            background-color: var(--light-color);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .account-info h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .account-info p {
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+        
+        .account-info strong {
+            color: var(--dark-color);
+            min-width: 180px;
+            display: inline-block;
+        }
+        
+        .account-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .account-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .logout-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--pizza-shadow);
+        }
+        
+        .order-history-btn {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .order-history-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Error Message */
+        .error-box {
+            background-color: #fdf7f7;
+            color: var(--error-color);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--error-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px auto;
+            max-width: 800px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .error-box i {
+            font-size: 1.5rem;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .login-link a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 30px 0 20px;
+            text-align: center;
+        }
+        
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .account-box {
+                padding: 30px;
+            }
+            
+            .account-info {
+                padding: 20px;
+            }
+            
+            .account-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .account-box {
+                padding: 25px 20px;
+            }
+            
+            .account-box h1 {
+                font-size: 1.5rem;
+            }
+            
+            .account-info p {
+                font-size: 1rem;
+            }
+            
+            .account-info strong {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">Pizza<span>Mania</span></a>
+                <div class="nav-links">
+                    <a href="/menu/">Меню</a>
+                    <a href="/basket/">Корзина</a>
+                    <a href="/orders/">Заказы</a>
+                    <a href="/about/">О нас</a>
+                </div>
+                {% if email %}
+                <div class="auth-links">
+                    <a href="{% url 'users:logout' %}" class="logout">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </a>
+                </div>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="account-container">
+            {% if email %}
+                <div class="account-box">
+                    <h1>Мой аккаунт</h1>
+                    
+                    <div class="account-info">
+                        <h2>Личная информация</h2>
+                        <p><strong>Имя пользователя:</strong> {{ username }}</p>
+                        <p><strong>Email:</strong> {{ email }}</p>
+                    </div>
+                    
+                    <div class="account-actions">
+                        <a href="/orders/" class="account-btn order-history-btn">
+                            <i class="fas fa-history"></i> История заказов
+                        </a>
+                        <a href="{% url 'users:logout' %}" class="account-btn logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            
+            {% if anom %}
+                <div class="error-box" role="alert" aria-live="assertive">
+                    <i class="fas fa-exclamation-circle"></i> {{ anom }}
+                </div>
+                
+                <div class="login-link">
+                    <a href="{% url 'users:login' %}">
+                        <i class="fas fa-sign-in-alt"></i> Войти в систему
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 PizzaMania. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

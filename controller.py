@@ -1,4 +1,0 @@
-import view, model, main
-
-
-

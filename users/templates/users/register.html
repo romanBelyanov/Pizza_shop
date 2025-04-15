@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | PizzaMania</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --primary-hover: #c0392b;
+            --secondary-color: #f39c12;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --text-color: #2c3e50;
+            --border-color: #ddd;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --info-color: #3498db;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --pizza-shadow: 0 8px 24px rgba(231, 76, 60, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                        url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        .auth-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .auth-links a {
+            font-weight: 500;
+            position: relative;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-links .login {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .auth-links .login:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .auth-links .register {
+            border: 2px solid var(--primary-color);
+        }
+        
+        .auth-links .register:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        .registration-container {
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .registration-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .registration-box h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        /* Messages */
+        .messages {
+            margin-bottom: 25px;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95em;
+        }
+        
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .alert-error {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+        
+        .alert-info {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--info-color);
+            border-left: 4px solid var(--info-color);
+        }
+        
+        /* Error Message */
+        .error-con {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--error-color);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--error-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Form Styles */
+        form {
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        label {
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        input {
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+        
+        .password-hint {
+            font-size: 0.8em;
+            color: #777;
+            margin-top: -15px;
+        }
+        
+        /* Button */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--pizza-shadow);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Login Link */
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 30px 0 20px;
+            text-align: center;
+        }
+        
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .registration-box {
+                padding: 30px;
+            }
+            
+            nav {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .registration-box {
+                padding: 25px 20px;
+            }
+            
+            .registration-box h1 {
+                font-size: 1.5rem;
+            }
+            
+            .auth-links {
+                gap: 10px;
+            }
+            
+            .auth-links a {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">Pizza<span>Mania</span></a>
+            <div class="auth-links">
+                <a href="/users/login/" class="login">Вход</a>
+                <a href="/users/register/" class="register">Регистрация</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="registration-container">
+            <div class="registration-box">
+                <h1>Создайте аккаунт</h1>
+                
+                <div class="messages">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+                                <i class="fas 
+                                {% if message.tags == 'success' %}fa-check-circle
+                                {% elif message.tags == 'error' %}fa-exclamation-circle
+                                {% else %}fa-info-circle{% endif %}"></i>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% if error %}
+                        <div class="error-con" role="alert" aria-live="assertive">
+                            <i class="fas fa-exclamation-circle"></i>{{ error }}
+                        </div>
+                        {% endif %}
+
+                        <div class="input-field">
+                            <label for="username">Имя пользователя</label>
+                            <input type="text" id="username" name="username" required placeholder="Придумайте логин">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="email">Электронная почта</label>
+                            <input type="email" id="email" name="email" required placeholder="example@mail.com">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="tel">Телефон</label>
+                            <input type="tel" id="tel" name="tel" required placeholder="+7 (XXX) XXX-XX-XX">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="password">Пароль</label>
+                            <input type="password" id="password" name="password" required placeholder="Не менее 8 символов">
+                            <div class="password-hint">Используйте буквы, цифры и специальные символы</div>
+                        </div>
+
+                        <div class="input-field">
+                            <label for="password_">Подтверждение пароля</label>
+                            <input type="password" id="password_" name="password_" required placeholder="Повторите пароль">
+                        </div>
+
+                        <button type="submit" class="btn">Зарегистрироваться</button>
+                    </div>
+                </form>
+
+                <div class="login-link">
+                    Уже есть аккаунт? <a href="/users/login/">Войти</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 PizzaMania. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
